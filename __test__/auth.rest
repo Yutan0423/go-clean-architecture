@@ -1,0 +1,11 @@
+POST http://localhost:8080/signup
+Content-Type: application/json
+
+{
+  "email": "example@example.com",
+  "password": "password123"
+}
+
+###
+POST http://localhost:8080/signout
+Content-Type: application/json
