@@ -3,6 +3,7 @@ package usecase
 import (
 	"go-clean-architecture/entity"
 	"go-clean-architecture/repository"
+	"go-clean-architecture/validator"
 	"os"
 	"time"
 
@@ -17,10 +18,11 @@ type IUserUseCase interface {
 
 type userUseCase struct {
 	ur repository.IUserRepository
+	uv validator.IUserValidator
 }
 
-func NewUserUseCase(ur repository.IUserRepository) IUserUseCase {
-	return &userUseCase{ur}
+func NewUserUseCase(ur repository.IUserRepository, uv validator.IUserValidator) IUserUseCase {
+	return &userUseCase{ur, uv}
 }
 
 func (uu *userUseCase) SignUp(u entity.User) (entity.UserResponse, error) {

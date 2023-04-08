@@ -6,13 +6,19 @@ import (
 	"go-clean-architecture/repository"
 	"go-clean-architecture/router"
 	"go-clean-architecture/usecase"
+	"go-clean-architecture/validator"
 )
 
 func main() {
 	db := db.NewDB()
 	userRepository := repository.NewUserRepository(db)
-	userUseCase := usecase.NewUserUseCase(userRepository)
+	userValidator := validator.NewUserValidator()
+	userUseCase := usecase.NewUserUseCase(userRepository, userValidator)
 	userController := controller.NewUserController(userUseCase)
-	e := router.NewRouter(userController)
+	taskRepository := repository.NewTaskRepository(db)
+	taskValidator := validator.NewTaskValidator()
+	taskUseCase := usecase.NewTaskUseCase(taskRepository, taskValidator)
+	taskController := controller.NewTaskController(taskUseCase)
+	e := router.NewRouter(userController, taskController)
 	e.Logger.Fatal(e.Start(":8080"))
 }
